@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,6 +17,8 @@
     return 'Hello, world';
 });*/
 
-Route::get('/', 'WelcomeController@index');
+Route::get('/', [Controllers\WelcomeController::class, 'index']);
 
+Route::resource('tasks', 'MySimpleResourceController');
 
+Route::apiResorce('api_task', 'ApiMySimpleResourceController');

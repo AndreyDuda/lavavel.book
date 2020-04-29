@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,13 +11,6 @@ use App\Http\Controllers;
 |
 */
 
-
-/*Route::get('/', function () {
-    return 'Hello, world';
-});*/
-
-Route::get('/', [Controllers\WelcomeController::class, 'index']);
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', function () {
+    return view('welcome');
+});

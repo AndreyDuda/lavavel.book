@@ -19,6 +19,6 @@ use App\Http\Controllers;
 
 Route::get('/', [Controllers\WelcomeController::class, 'index']);
 
-Route::resource('tasks', 'MySimpleResourceController');
+Auth::routes();
 
-Route::apiResorce('api_task', 'ApiMySimpleResourceController');
+Route::get('/home', 'HomeController@index')->name('home');

@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -17,6 +16,9 @@ class User extends Authenticatable
     const PROP_EMAIL = 'email';
     const PROP_EMAIL_VERIFIED_AT = 'email_verified_at';
     const PROP_PASSWORD = 'password';
+    const PROP_CREATED_AT = 'created_at';
+    const PROP_UPDATE_AT = 'updated_at';
+    const PROP_REMEMBER_TOKEN = 'remember_token';
 
     /**
      * The attributes that are mass assignable.

@@ -13,4 +13,6 @@ class BlogCategory extends Model
     const PROP_SLUG = 'slug';
     const PROP_TITLE = 'title';
     const PROP_DESCRIPTION = 'description';
+    const PROP_CREATED_AT = 'created_at';
+    const PROP_UPDATE_AT = 'updated_at';
 }

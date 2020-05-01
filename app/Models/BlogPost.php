@@ -18,4 +18,8 @@ class BlogPost extends Model
     const PROP_CONTENT_HTML = 'content_html';
     const PROP_IS_PUBLISHED = 'is_published';
     const PROP_PUBLISHED_AT = 'published_at';
+    const PROP_CREATED_AT = 'created_at';
+    const PROP_UPDATE_AT = 'updated_at';
+
+    protected $table = self::TABLE;
 }

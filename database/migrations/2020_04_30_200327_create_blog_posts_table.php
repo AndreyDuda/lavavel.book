@@ -45,6 +45,5 @@ class CreateBlogPostsTable extends Migration
     public function down()
     {
         Schema::dropIfExists(BlogPost::TABLE);
-
     }
 }

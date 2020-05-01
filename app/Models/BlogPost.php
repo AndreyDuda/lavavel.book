@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BlogPost extends Model
 {
+    use SoftDeletes;
+
     const TABLE = 'blog_post';
 
     const PROP_ID = 'id';

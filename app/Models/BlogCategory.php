@@ -15,4 +15,11 @@ class BlogCategory extends Model
     const PROP_DESCRIPTION = 'description';
     const PROP_CREATED_AT = 'created_at';
     const PROP_UPDATE_AT = 'updated_at';
+
+    protected $fillable = [
+        self::PROP_TITLE,
+        self::PROP_SLUG,
+        self::PROP_PARENT_ID,
+        self::PROP_DESCRIPTION
+    ];
 }

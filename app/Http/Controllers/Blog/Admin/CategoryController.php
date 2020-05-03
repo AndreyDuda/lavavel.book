@@ -8,8 +8,13 @@ use App\Models\BlogCategory;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 
-class CategoryController extends Controller
+class CategoryController extends BaseController
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
     /**
      * Display a listing of the resource.
      *

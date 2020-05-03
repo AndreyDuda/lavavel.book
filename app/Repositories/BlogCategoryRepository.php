@@ -4,14 +4,13 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\BlogCategory;
-use Illuminate\Database\Eloquent\Model;
 use Webmozart\Assert\Assert;
 
 class BlogCategoryRepository extends CoreRepository
 {
     public function getModelClass()
     {
-        return Model::class;
+        return BlogCategory::class;
     }
 
     public function getEdit(int $id)
@@ -23,9 +22,6 @@ class BlogCategoryRepository extends CoreRepository
 
     public function getForComboBox()
     {
-        $result = $this->startConditions()
-            ->select('')
-        ;
         return $this->startConditions()->all();
     }
 

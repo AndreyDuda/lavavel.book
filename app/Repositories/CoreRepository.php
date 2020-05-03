@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 abstract class CoreRepository
 {
-    /** @var \Eloquent */
     protected $model;
 
     public function __construct()

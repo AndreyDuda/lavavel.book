@@ -7,13 +7,13 @@
         </div>
     </div>
 </div>
-@if ($posts->exists)
+@if ($post->exists)
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
                     <ul class="list-unstyled">
-                        <li>ID: {{ $posts->id }}</li>
+                        <li>ID: {{ $post->id }}</li>
                     </ul>
                 </div>
             </div>
@@ -25,15 +25,15 @@
             <div class="card-body">
                 <div class="form-group">
                     <label for="title">Создано</label>
-                    <input type="text" value="{{ $category->created_at }}" class="form-control" disabled>
+                    <input type="text" value="{{ $post->created_at }}" class="form-control" disabled>
                 </div>
                 <div class="form-group">
                     <label for="title">Изменино</label>
-                    <input type="text" value="{{ $category->updated_at }}" class="form-control" disabled>
+                    <input type="text" value="{{ $post->updated_at }}" class="form-control" disabled>
                 </div>
                 <div class="form-group">
                     <label for="title">Удалено</label>
-                    <input type="text" value="{{ $category->deleted_at }}" class="form-control" disabled>
+                    <input type="text" value="{{ $post->published_at }}" class="form-control" disabled>
                 </div>
             </div>
         </div>

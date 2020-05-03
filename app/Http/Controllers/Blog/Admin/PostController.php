@@ -2,25 +2,31 @@
 
 namespace App\Http\Controllers\Blog\Admin;
 
+use App\Http\Requests\BlogPostUpdateRequest;
+use App\Repositories\BlogCategoryRepository;
 use App\Repositories\BlogPostRepository;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class PostController extends BaseController
 {
+    /** @var BlogPostRepository  */
     private $blogPostRepository;
+    /** @var BlogCategoryRepository */
+    private $blogCategoryRepository;
 
     public function __construct()
     {
         parent::__construct();
 
         $this->blogPostRepository = app(BlogPostRepository::class);
+        $this->blogCategoryRepository = app(BlogCategoryRepository::class);
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -64,11 +70,20 @@ class PostController extends BaseController
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
-        //
+        $post = $this->blogPostRepository->getEdit($id);
+        if (empty($post)) {
+            abort(404);
+        }
+
+        $categories = $this->blogCategoryRepository->getForComboBox();
+
+        return view('blog.admin.posts.edit',
+            compact('post', 'categories')
+        );
     }
 
     /**
@@ -76,11 +91,37 @@ class PostController extends BaseController
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(BlogPostUpdateRequest $request, $id)
     {
-        //
+        $post = $this->blogPostRepository->getEdit($id);
+
+        if (empty($post)) {
+            return back()
+                ->withErrors(['msg' => 'Запись не найдена'])
+                ->withInput();
+        }
+        $data = $request->all();
+
+        if (empty($data['slug'])) {
+            $data['slug'] = \Str::slug($data['title']);
+        }
+        if (empty($data->published_at) && $data['is_published']) {
+            $data['published_at'] = Carbon::now();
+        }
+
+        $result = $post->update($data);
+
+        if ($result) {
+            return redirect()
+                ->route('blog.admin.posts.edit', $post->id)
+                ->with(['success', 'Успешно сохраненно']);
+        } else {
+            return back()
+                ->withErrors(['msq' => 'Ошибка сохранения'])
+                ->withInput();
+        }
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\BlogPost;
+use Webmozart\Assert\Assert;
 
 class BlogPostRepository extends CoreRepository
 {
@@ -53,5 +54,12 @@ class BlogPostRepository extends CoreRepository
             ->paginate($perPage);*/
 
         return $result;
+    }
+
+    public function getEdit(int $id)
+    {
+        Assert::nullOrInteger($id, 'Указан не верный параметр');
+
+        return $this->startConditions()->find($id);
     }
 }

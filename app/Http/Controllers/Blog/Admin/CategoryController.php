@@ -2,13 +2,27 @@
 
 namespace App\Http\Controllers\Blog\Admin;
 
+use App\Http\Requests\BlogCategoryCreateRequest;
 use App\Http\Requests\BlogCategoryUpdateRequest;
 use App\Models\BlogCategory;
+use App\Repositories\BlogCategoryRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
+
+    /** @var BlogCategoryRepository  */
+    private $blogCategoryRepository;
+
+
+    public function __construct()
+    {
+        $this->blogCategoryRepository = new BlogCategoryRepository();
+
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +30,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = BlogCategory::paginate(5);
+        $categories = $this->blogCategoryRepository->getAllWithPaginate(5);
 
         return view('blog.admin.categories.index', compact('categories'));
     }
@@ -24,22 +38,41 @@ class CategoryController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function create()
     {
-        //
+        $category = new BlogCategory();
+        $categories = $this->blogCategoryRepository->getForComboBox();
+
+        return view('blog.admin.categories.edit', compact('category', 'categories'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(BlogCategoryCreateRequest $request)
     {
-        //
+        $data = $request->input();
+        if (empty($data['slug'])) {
+            $data['slug'] = Str::slug($data['title']);
+        }
+
+        $category = new BlogCategory($data);
+        $category->create($category);
+
+        if ($category) {
+            return redirect()
+                ->route('blog.admin.categories.edit', [$category->id])
+                ->with(['success' => 'Успешно сохранено']);
+        } else {
+            return back()
+                ->withErrors(['msg' => 'Ошибка сохранения'])
+                ->withInput();
+        }
     }
 
     /**
@@ -61,7 +94,11 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = BlogCategory::findOrFail($id);
+        $categoryRepository = new BlogCategoryRepository();
+        $category = $categoryRepository->getEdit($id);
+        if (empty($category)) {
+            abort(404);
+        }
         $categories = BlogCategory::all();
 
         return view('blog.admin.categories.edit',
@@ -84,7 +121,10 @@ class CategoryController extends Controller
         }
 
         $data = $request->all();
-        $result = $category->fill($data)->save();
+        if (empty($data['slug'])) {
+            $data['slug'] = Str::slug($data['title']);
+        }
+        $result = $category->update($data);
 
         if ($result) {
             return redirect()

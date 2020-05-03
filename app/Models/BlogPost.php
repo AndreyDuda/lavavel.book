@@ -25,4 +25,5 @@ class BlogPost extends Model
     const PROP_UPDATE_AT = 'updated_at';
 
     protected $table = self::TABLE;
+
 }

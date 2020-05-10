@@ -10,12 +10,15 @@ class BlogPostObserver
     /**
      * Handle the models blog post "created" event.
      *
-     * @param  \App\Models\BlogPost  $modelsBlogPost
+     * @param  \App\Models\BlogPost  $blogPost
      * @return void
      */
-    public function created(BlogPost $modelsBlogPost)
+    public function creating(BlogPost $blogPost)
     {
-        //
+        $this->setPublished($blogPost);
+        $this->setSlug($blogPost);
+        $this->setHtml($blogPost);
+        $this->setUser($blogPost);
     }
 
     /**

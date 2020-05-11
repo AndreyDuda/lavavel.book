@@ -60,10 +60,11 @@ class PostController extends BaseController
     {
         $data = $request->input();
         $post = new BlogPost();
-        $post->create($data);
+
+        $post = $post->create($data);
 
         if ($post) {
-            return redirect()->route('blog.admin.post.edit', [$post->id]);
+            return redirect()->route('blog.admin.posts.edit', [$post->id]);
         } else {
             return back()->withErrors(['msg' => 'Ошибка сохранения'])
                 ->withInput();

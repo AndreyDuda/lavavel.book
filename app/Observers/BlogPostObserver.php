@@ -84,4 +84,17 @@ class BlogPostObserver
             $blogPost->slug = \Str::slug($blogPost->title);
         }
     }
+
+    public function setHtml(BlogPost $blogPost)
+    {
+        if ($blogPost->isDirty('content_raw')) {
+            $blogPost->content_html = $blogPost->content_raw;
+        }
+    }
+
+    public function setUser(BlogPost $blogPost)
+    {
+        $blogPost->user_id = auth()->id ?? BlogPost::UNKNOWN_USER;
+    }
+
 }

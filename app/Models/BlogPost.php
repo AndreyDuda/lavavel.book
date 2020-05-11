@@ -23,6 +23,8 @@ class BlogPost extends Model
 {
     use SoftDeletes;
 
+    const UNKNOWN_USER = 1;
+
     const TABLE = 'blog_post';
 
     const PROP_ID           = 'id';

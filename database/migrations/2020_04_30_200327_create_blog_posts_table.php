@@ -22,7 +22,7 @@ class CreateBlogPostsTable extends Migration
             $table->bigInteger(BlogPost::PROP_USER_ID)->unsigned();
             $table->string(BlogPost::PROP_SLUG);
             $table->string(BlogPost::PROP_TITLE);
-            $table->text(BlogPost::PROP_EXCERPT);
+            $table->text(BlogPost::PROP_EXCERPT)->default(null)->nullable();
             $table->text(BlogPost::PROP_CONTENT_RAW);
             $table->text(BlogPost::PROP_CONTENT_HTML);
             $table->boolean(BlogPost::PROP_IS_PUBLISHED);
